@@ -1,0 +1,213 @@
+﻿ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase Order #[ordernum]</title>
+    <meta name="description" content="HTML Model Sample for whhtmltopdf testing" />
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript,PDF,wkhtmltopdf,abl" />
+    <meta name="author" content="Robinson Koprowski" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+<style>
+.h1, h1 {
+    font-size: 1.8rem;
+}
+.lead {
+    font-size: 1.1rem;
+}
+p {
+    margin: 0;
+}
+#report-logo {
+    float: left;
+    margin-top: 1rem;
+}
+#report-header {
+    margin-left: 240px;
+}
+.linha-assinatura {
+    /*padding: 0 10px;*/
+    text-align: center;
+}
+#report-assinaturas {
+    margin-top: 10rem;
+}
+#report-assinaturas td {
+    padding: 0 10px;
+    width: 33%;
+}
+#report-assinaturas td div {
+    width: 100%;
+    border-top: 1px solid black;
+    text-align: center;
+}
+#report-cabec,
+#report-emitente,
+#report-entrega,
+#report-itens,
+#report-narrativa,
+#report-parcelas,
+#report-mensagens,
+#report-comentarios,
+#report-assinaturas {
+    page-break-inside : avoid;
+}
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+</style>
+
+</head>
+<body>
+
+    <!-- Will print at the top of every page -->
+    <div id="report-cabec" class="container">
+
+        <div id="report-logo">
+            <img src="file:///[logoimage]" width="224" height="125" />
+        </div>
+
+        <div id="report-header">
+
+            <h1 id="h1">Purchase Number #[ordernum]</h1>
+            <p>Purchase Date: [orderdate]</p>
+            <p>Purpose: [purpose]</p>
+            <p>Terms: [terms]</p>
+            <p>Carrying: [carrying]</p>
+            <p>Freight: [freight]</p>
+
+        </div>
+
+        <hr />
+
+    </div>
+
+    <!-- Page content -->
+
+    <div id="report-emitente" class="container">
+
+        <p><strong>Seller:</strong> [sellernum] - [sellername]</p>
+        <p>Federal ID: [sellerfederalid] - State ID: [sellerstateid]</p>
+
+        <address>
+            Address: [selleraddress]<br />
+            City: [sellercity]-[sellerstateabbr] Postal Code: [sellerpostalcode]<br />
+            Phone: [sellerphone]<br />
+            E-mail: [selleremail]
+        </address>
+
+    </div>
+
+    <div id="report-entrega" class="container">
+
+        <p><strong>Customer:</strong> [custnum] - [custname]</p>
+        <p>Federal ID: [custfederalid] - State ID: [custstateid] Category: [categoryid] - [category]</p>
+
+        <address>
+            Address: [custaddress]<br />
+            City: [custcity]-[custstateabbr] Postal Code: [custpostalcode]<br />
+            Phone: [custphone]<br />
+            E-mail: [custemail]
+        </address>
+
+    </div>
+
+    <div id="report-itens" class="container">
+
+        <table id="ttItemOrdem" class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Order</th>
+                    <th scope="col">Purpose</th>
+                    <th scope="col">Supplier Item</th>
+                    <th scope="col">Customer Item</th>
+                    <th scope="col" class="text-right">Tax Rate</th>
+                    <th scope="col" class="text-right">Tax Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                [itemlist]
+            </tbody>
+        </table>
+
+    </div>
+
+    <div id="report-narrativa" class="container">
+
+        <p class="lead text-center">Orders description</p>
+        <pre>
+[ordersdescription]
+        </pre>
+
+    </div>
+
+    <div id="report-parcelas" class="container">
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-right">Dispatch</th>
+                    <th scope="col" class="text-right">Quantity</th>
+                    <th scope="col">Unity</th>
+                    <th scope="col" class="text-right">Unit Price</th>
+                    <th scope="col" class="text-right">Tax Rate</th>
+                    <th scope="col" class="text-right">Total Price</th>
+                    <th scope="col">Delivery forecast</th>
+                </tr>
+            </thead>
+            <tbody>
+                [paymentlist]
+            </tbody>
+        </table>
+
+    </div>
+
+    <div id="report-mensagens" class="container">
+
+        <p class="lead text-center">Instructions</p>
+        <pre>
+[instructions]
+        </pre>
+
+    </div>
+
+    <div id="report-comentarios" class="container">
+
+        <p class="lead text-center">Comments</p>
+        <pre>
+
+Quisque quis porta erat, vitae iaculis tellus. Donec nisl nisl, accumsan sit amet gravida eu, scelerisque eu justo. Nam viverra, risus at ultricies ultricies, augue nunc luctus leo, vitae auctor risus leo non libero. Nulla eget convallis dolor.
+        </pre>
+
+    </div>
+
+    <div id="report-assinaturas" class="container">
+
+        <table class="table table-borderless">
+            <tr>
+                <td><div>VERIFIED BY</div></td>
+                <td><div>MANAGER</div></td>
+                <td><div>APPROVAL</div></td>
+            </tr>
+        </table>
+
+        <hr />
+
+        <p class="lead text-right">TOTAL: [total]</p>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    -->
+</body>
+</html>
