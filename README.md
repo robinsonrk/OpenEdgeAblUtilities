@@ -10,7 +10,7 @@ It contains:
 Some basic instructions and notes before you try to use this library.
 
 ### Compatibility
-This works with Progress OpenEdge 10+, on Windows and TTY environments. See compatibiliti of your PDF Viewer for PDFNator project.
+This works with Progress OpenEdge 10+, on Windows and TTY environments. See compatibility of your PDF Viewer for PDFNator project.
 
 ### For Progress Developer Studio users
 This is a entire PDS workspace with contained projects in it.
