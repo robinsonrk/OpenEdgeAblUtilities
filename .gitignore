@@ -1,6 +1,7 @@
 .git
 .metadata
 .sharedavm
+*.r
 GlobalConfig/bin
 LogAblErrors/bin
 PDFNator/bin
