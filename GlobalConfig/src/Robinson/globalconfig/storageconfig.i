@@ -21,7 +21,10 @@
 
 /* ********************  Preprocessor Definitions  ******************** */
 
-{Robinson/globalconfig/globalconfig.i}
+&GLOBAL-DEFINE ABLENVIRONMENTPATH
+&GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
+
+{{&GLOBALCONFIGPATH}/globalconfig.i}
 
 
 /* ***************************  Definitions  ************************** */

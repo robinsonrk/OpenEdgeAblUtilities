@@ -26,7 +26,11 @@
 
 /* ********************  Preprocessor Definitions  ******************** */
 
-    {ablenvironment.i}
+    &IF "{&ABLENVIRONMENTPATH}" <> "" &THEN
+        &GLOBAL-DEFINE ABLENVIRONMENTPATH {&ABLENVIRONMENTPATH}/
+    &ENDIF
+
+    {{&ABLENVIRONMENTPATH}ablenvironment.i}
 
     &IF DEFINED (CONFIGURATIONTABLE) = 0 &THEN
         &GLOBAL-DEFINE CONFIGURATIONTABLE configurationtable
@@ -57,3 +61,4 @@
     &ENDIF
 
 &ENDIF
+

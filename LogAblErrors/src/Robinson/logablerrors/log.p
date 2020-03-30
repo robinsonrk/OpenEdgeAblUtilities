@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------------
     File        : log.p
-    Purpose     :
+    Purpose     : Log messages to a standardized text file
     Syntax      :
     Description :
     Author(s)   : Robinson Koprowski
@@ -19,7 +19,10 @@ BLOCK-LEVEL ON ERROR UNDO, THROW.
 
 /* ********************  Preprocessor Definitions  ******************** */
 
-{Robinson/globalconfig/globalconfig.i}
+&GLOBAL-DEFINE ABLENVIRONMENTPATH
+&GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
+
+{{&GLOBALCONFIGPATH}/globalconfig.i}
 
 
 /* ***************************  Definitions  ************************** */

@@ -24,7 +24,10 @@ BLOCK-LEVEL ON ERROR UNDO, THROW.
 
 /* ********************  Preprocessor Definitions  ******************** */
 
-{Robinson/globalconfig/storageconfig.i}
+&GLOBAL-DEFINE ABLENVIRONMENTPATH
+&GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
+
+{{&GLOBALCONFIGPATH}/storageconfig.i}
 
 
 /* ***************************  Definitions  ************************** */

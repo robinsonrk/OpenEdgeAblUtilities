@@ -1,11 +1,14 @@
 /*------------------------------------------------------------------------
     File        : pdfnator-sample01.p
-    Purpose     : Tests for PDFNator
+    Purpose     : Sample to PDFNator
     Syntax      :
     Description :
     Author(s)   : Robinson Koprowski
     Created     : Tue Feb 25 16:08:43 BRT 2020
     Notes       :
+
+        Uses a html model file and string substitution.
+
         Licensed via LGPLv3
 
         Check for improvements at
@@ -79,21 +82,10 @@ RUN insertHtmlField IN THIS-PROCEDURE ("total", "54.285,15").
 
 RUN Robinson/pdfnator/pdfnatorapi.p (SEARCH("Robinson/html2pdfmodels/model-example01.html"),
                                      SESSION:TEMP-DIRECTORY + "generatedfile.pdf",
-                                     "default",
+                                     "",
                                      TRUE,
                                      0,
                                      1,
+                                     "Purchase Order 456789",
+                                     TRUE,
                                      TABLE ttHtmlFields).
-
-
-PROCEDURE insertHtmlField:
-    DEFINE INPUT  PARAMETER pcCampo AS CHARACTER    NO-UNDO.
-    DEFINE INPUT  PARAMETER pcValor AS CHARACTER    NO-UNDO.
-
-    FIND ttHtmlFields WHERE ttHtmlFields.htmlfield = pcCampo NO-ERROR.
-    IF NOT AVAILABLE ttHtmlFields THEN DO:
-        CREATE ttHtmlFields.
-        ASSIGN ttHtmlFields.htmlfield = pcCampo.
-    END.
-    ASSIGN ttHtmlFields.htmlvalue = pcValor.
-END PROCEDURE.

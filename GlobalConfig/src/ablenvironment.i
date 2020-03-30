@@ -10,7 +10,7 @@
 
         You must include this file in your .gitignore so each developer,
         production, tests, deploy environments, etc., can have your own
-        witout interfere others.
+        witout interfering others.
         The values here are used by globalconfig.i and added to
         all sources.
 

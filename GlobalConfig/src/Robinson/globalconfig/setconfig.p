@@ -1,4 +1,3 @@
-
 /*------------------------------------------------------------------------
     File        : setconfig.p
     Purpose     : Sets the configuration key/value pairs in the STORAGE
@@ -8,9 +7,10 @@
     Created     : Tue Feb 25 17:02:01 BRT 2020
     Notes       :
 
-        Once one keyname can be passed here.
+        Only one keyname can be passed here.
         The configuration value will be serialized and can be retrieved
-        later throught its key.
+        later by its key.
+        Null value will delete the config key, if exists.
 
         Licensed via LGPLv3
 
@@ -24,7 +24,10 @@ BLOCK-LEVEL ON ERROR UNDO, THROW.
 
 /* ********************  Preprocessor Definitions  ******************** */
 
-{Robinson/globalconfig/storageconfig.i}
+&GLOBAL-DEFINE ABLENVIRONMENTPATH
+&GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
+
+{{&GLOBALCONFIGPATH}/storageconfig.i}
 
 
 /* ***************************  Definitions  ************************** */
@@ -37,9 +40,15 @@ DEFINE INPUT  PARAMETER pcValue     AS CHARACTER    NO-UNDO.
 
 FIND {&CONFIGURATIONTABLE} EXCLUSIVE-LOCK WHERE {&CONFIGURATIONTABLE}.{&CONFIGURATIONKEY} = pcKeyName NO-ERROR.
 
-IF NOT AVAILABLE {&CONFIGURATIONTABLE} THEN DO:
-    CREATE {&CONFIGURATIONTABLE}.
-    ASSIGN {&CONFIGURATIONTABLE}.{&CONFIGURATIONKEY} = pcKeyName.
-END.
+IF pcValue <> ? THEN DO:
 
-ASSIGN {&CONFIGURATIONTABLE}.{&CONFIGURATIONVALUE} = pcValue.
+    IF NOT AVAILABLE {&CONFIGURATIONTABLE} THEN DO:
+        CREATE {&CONFIGURATIONTABLE}.
+        ASSIGN {&CONFIGURATIONTABLE}.{&CONFIGURATIONKEY} = pcKeyName.
+    END.
+
+    ASSIGN {&CONFIGURATIONTABLE}.{&CONFIGURATIONVALUE} = pcValue.
+
+END.
+ELSE IF AVAILABLE {&CONFIGURATIONTABLE} THEN
+    DELETE {&CONFIGURATIONTABLE}.

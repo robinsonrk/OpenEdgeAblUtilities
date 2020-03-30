@@ -22,6 +22,7 @@ BLOCK-LEVEL ON ERROR UNDO, THROW.
 
 /* ********************  Preprocessor Definitions  ******************** */
 
+&GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
 
 /* ***************************  Definitions  ************************** */
 
@@ -32,6 +33,6 @@ DEFINE OUTPUT PARAMETER pcRetrievedValue    AS CHARACTER    NO-UNDO.
 
 /* ***************************  Main Block  *************************** */
 
-RUN Robinson/globalconfig/getconfig.p (pcKeyList, OUTPUT pcRetrievedValue).
+RUN {&GLOBALCONFIGPATH}/getconfig.p (pcKeyList, OUTPUT pcRetrievedValue).
 IF pcRetrievedValue = ? THEN
     ASSIGN pcRetrievedValue = pcDefaultValue.
