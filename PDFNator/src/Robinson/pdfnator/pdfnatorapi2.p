@@ -128,7 +128,7 @@ PROCEDURE initializeEnvironment:
     DEFINE VARIABLE cPdfViewerType  AS CHARACTER    NO-UNDO.
 
 
-    RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.wkhtmltopdf32", OUTPUT cInitialized).
+    RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.wkhtmltopdf32;global.wkhtmltopdf64", OUTPUT cInitialized).
     IF cInitialized = ? THEN DO :
 &IF "{&STORAGE}" = "memory" &THEN
         RUN {&PDFNATORPATH}/initpdfnatorconfigs.p.
@@ -284,7 +284,7 @@ PROCEDURE generatePdfFile:
     ASSIGN cCommandLine = cUtilityPath + " " + cUtilityParams.
 
 &IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
-    RUN runProcess (INPUT cCommandLine, 30000). /*wait 20 seconds*/
+    RUN runProcess (INPUT cCommandLine, 30000). /*wait 30 seconds*/
 &ELSE
     OS-COMMAND SILENT VALUE(cCommandLine).
 &ENDIF
