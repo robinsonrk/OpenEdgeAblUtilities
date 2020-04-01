@@ -380,9 +380,9 @@ PROCEDURE printPdfFileCopy:
 
     DEFINE VARIABLE cCommandLine    AS CHARACTER    NO-UNDO.
 
-    ASSIGN cCommandLine = "lp -d ~"<printer-name>~" ~"<pdf_file_name>~""
-           cCommandLine = REPLACE(cCommandLine, "<printer-name>", pcPrinterName)
-           cCommandLine = REPLACE(cCommandLine, "<pdf_file_name>", pcFileDestiny).
+    ASSIGN cCommandLine = "lp -d ~"[printername]~" ~"[filename]~""
+           cCommandLine = REPLACE(cCommandLine, "[printername]", pcPrinterName)
+           cCommandLine = REPLACE(cCommandLine, "[filename]", pcFileDestiny).
 
     DO iCont = 1 TO piNumCopies:
         OS-COMMAND NO-WAIT VALUE(cCommandLine).
