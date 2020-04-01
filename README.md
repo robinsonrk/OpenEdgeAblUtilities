@@ -4,6 +4,7 @@ It contains:
 - GlobalConfig
 - LogAblErrors
 - PDFNator
+- PasswordFinder
 - Samples
 
 ## Before you begin
