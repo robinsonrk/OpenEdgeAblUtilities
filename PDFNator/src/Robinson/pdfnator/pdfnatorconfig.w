@@ -87,32 +87,40 @@ DEFINE VARIABLE SELECT-1 AS CHARACTER INITIAL "home"
                      "Viewing & Printing Modes","viewer",
                      "Adobe Acrobat Reader","acrord",
                      "Sumatra PDF","sumatra" 
-     SIZE 28 BY 13.57 NO-UNDO.
+     SIZE 28 BY 15.95 NO-UNDO.
+
+DEFINE BUTTON BUTTON-6 
+     LABEL "Defaults" 
+     SIZE 10 BY 1.
+
+DEFINE BUTTON BUTTON-7 
+     LABEL "Defaults" 
+     SIZE 10 BY 1.
 
 DEFINE VARIABLE cAcrordOpeningParams AS CHARACTER FORMAT "X(256)":U 
      LABEL "Opening PDF Params" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cAcrordPrintingParams AS CHARACTER FORMAT "X(256)":U 
      LABEL "Printing PDF Params" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalAcrordPath32 AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path (32bits)" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalAcrordPath64 AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path (64bits)" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationAcrordPath AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE RECTANGLE RECT-12
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
@@ -133,32 +141,40 @@ DEFINE VARIABLE EDITOR-1 AS CHARACTER
 DEFINE VARIABLE cStationName AS CHARACTER FORMAT "X(256)":U 
      LABEL "Station Name" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
+
+DEFINE BUTTON BUTTON-4 
+     LABEL "Defaults" 
+     SIZE 10 BY 1.
+
+DEFINE BUTTON BUTTON-5 
+     LABEL "Defaults" 
+     SIZE 10 BY 1.
 
 DEFINE VARIABLE cGlobalSumatraPath32 AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path (32bits)" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalSumatraPath64 AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path (64bits)" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationSumatraPath AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cSumatraOpeningParams AS CHARACTER FORMAT "X(256)":U 
      LABEL "Opening PDF Params" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cSumatraPrintingParams AS CHARACTER FORMAT "X(256)":U 
      LABEL "Printing PDF Params" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE RECTANGLE RECT-10
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
@@ -178,7 +194,7 @@ DEFINE VARIABLE cGlobalOpeningMode AS CHARACTER FORMAT "X(256)":U INITIAL "auto"
      LIST-ITEM-PAIRS "Auto with Associated Application","auto",
                      "PDF Viewer Path + Viewers Parameters","viewer"
      DROP-DOWN-LIST
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalPrintMode AS CHARACTER FORMAT "X(256)":U INITIAL "command.viewer" 
      LABEL "Printing Mode" 
@@ -187,7 +203,7 @@ DEFINE VARIABLE cGlobalPrintMode AS CHARACTER FORMAT "X(256)":U INITIAL "command
                      "Copy to Printer","command.copy",
                      "Adobe Acrobat Reader COM Automation (needs Pro Licence)","acrord.comobj"
      DROP-DOWN-LIST
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalViewer AS CHARACTER FORMAT "X(256)":U INITIAL "acrord" 
      LABEL "PDF Viewer" 
@@ -195,7 +211,7 @@ DEFINE VARIABLE cGlobalViewer AS CHARACTER FORMAT "X(256)":U INITIAL "acrord"
      LIST-ITEM-PAIRS "Adobe Acrobat Reader","acrord",
                      "Sumatra PDF","sumatra"
      DROP-DOWN-LIST
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationOpeningMode AS CHARACTER FORMAT "X(256)":U INITIAL "default" 
      LABEL "Opening Mode" 
@@ -204,7 +220,7 @@ DEFINE VARIABLE cStationOpeningMode AS CHARACTER FORMAT "X(256)":U INITIAL "defa
                      "Auto with Associated Application","auto",
                      "PDF Viewer Path + Viewers Parameters","viewer"
      DROP-DOWN-LIST
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationPrintMode AS CHARACTER FORMAT "X(256)":U INITIAL "default" 
      LABEL "Printing Mode" 
@@ -214,7 +230,7 @@ DEFINE VARIABLE cStationPrintMode AS CHARACTER FORMAT "X(256)":U INITIAL "defaul
                      "Copy to Printer","command.copy",
                      "Adobe Acrobat Reader COM Automation (needs Pro Licence)","acrord.comobj"
      DROP-DOWN-LIST
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationViewer AS CHARACTER FORMAT "X(256)":U INITIAL "default" 
      LABEL "PDF Viewer" 
@@ -223,17 +239,17 @@ DEFINE VARIABLE cStationViewer AS CHARACTER FORMAT "X(256)":U INITIAL "default"
                      "Adobe Acrobat Reader","acrord",
                      "Sumatra PDF","sumatra"
      DROP-DOWN-LIST
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalPrinterPath AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Printer" 
+     LABEL "Default Printer" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationPrinterPath AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Printer" 
+     LABEL "Default Printer" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE RECTANGLE RECT-4
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
@@ -243,25 +259,29 @@ DEFINE RECTANGLE RECT-5
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
      SIZE 129 BY 5.71.
 
+DEFINE BUTTON BUTTON-1 
+     LABEL "Defaults" 
+     SIZE 10 BY 1.14.
+
 DEFINE VARIABLE cGlobalUtilityPath32 AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path (32bits)" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cGlobalUtilityPath64 AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path (64bits)" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cStationUtilityPath AS CHARACTER FORMAT "X(256)":U 
      LABEL "Path" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE VARIABLE cUtilityParams AS CHARACTER FORMAT "X(256)":U 
      LABEL "Cmd Line Parameters" 
      VIEW-AS FILL-IN 
-     SIZE 90 BY 1 NO-UNDO.
+     SIZE 89 BY 1 NO-UNDO.
 
 DEFINE RECTANGLE RECT-1
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
@@ -280,33 +300,35 @@ DEFINE RECTANGLE RECT-3
 
 DEFINE FRAME DEFAULT-FRAME
      SELECT-1 AT ROW 1.24 COL 2 NO-LABEL WIDGET-ID 2
-     btnOk AT ROW 15.29 COL 131 WIDGET-ID 6
-     btnCancel AT ROW 15.29 COL 147 WIDGET-ID 4
-     RECT-13 AT ROW 15.05 COL 2 WIDGET-ID 8
+     btnOk AT ROW 17.67 COL 131 WIDGET-ID 6
+     btnCancel AT ROW 17.67 COL 147 WIDGET-ID 4
+     RECT-13 AT ROW 17.43 COL 2 WIDGET-ID 8
     WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 1 ROW 1
-         SIZE 165.4 BY 16.1 WIDGET-ID 100.
+         SIZE 165.4 BY 18.43
+         FONT 1 WIDGET-ID 100.
 
 DEFINE FRAME FRAME-VIEWER
      cGlobalViewer AT ROW 1.95 COL 29 COLON-ALIGNED WIDGET-ID 26
      cGlobalOpeningMode AT ROW 3.14 COL 29 COLON-ALIGNED WIDGET-ID 30
      cGlobalPrintMode AT ROW 4.33 COL 29 COLON-ALIGNED WIDGET-ID 32
      cGlobalPrinterPath AT ROW 5.52 COL 29 COLON-ALIGNED WIDGET-ID 8
-     cStationViewer AT ROW 8.38 COL 29 COLON-ALIGNED WIDGET-ID 28
-     cStationOpeningMode AT ROW 9.57 COL 29 COLON-ALIGNED WIDGET-ID 34
-     cStationPrintMode AT ROW 10.81 COL 29 COLON-ALIGNED WIDGET-ID 36
-     cStationPrinterPath AT ROW 11.95 COL 29 COLON-ALIGNED WIDGET-ID 38
+     cStationViewer AT ROW 8.14 COL 29 COLON-ALIGNED WIDGET-ID 28
+     cStationOpeningMode AT ROW 9.33 COL 29 COLON-ALIGNED WIDGET-ID 34
+     cStationPrintMode AT ROW 10.57 COL 29 COLON-ALIGNED WIDGET-ID 36
+     cStationPrinterPath AT ROW 11.71 COL 29 COLON-ALIGNED WIDGET-ID 38
      "Default Values for the Station (blaks for global default values):" VIEW-AS TEXT
-          SIZE 61 BY .62 AT ROW 7.43 COL 6 WIDGET-ID 24
+          SIZE 61 BY .62 AT ROW 7.19 COL 6 WIDGET-ID 24
      "Global Default Values:" VIEW-AS TEXT
           SIZE 26 BY .62 AT ROW 1.24 COL 6 WIDGET-ID 14
      RECT-4 AT ROW 1.48 COL 3 WIDGET-ID 12
-     RECT-5 AT ROW 7.67 COL 3 WIDGET-ID 22
+     RECT-5 AT ROW 7.43 COL 3 WIDGET-ID 22
     WITH 1 DOWN KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 32 ROW 1.24
-         SIZE 133 BY 13.57
+         SIZE 133 BY 15.95
+         FONT 1
          TITLE "Viewing & Printing Modes" WIDGET-ID 300.
 
 DEFINE FRAME FRAME-WKHTMLTOPDF
@@ -314,6 +336,7 @@ DEFINE FRAME FRAME-WKHTMLTOPDF
      cGlobalUtilityPath64 AT ROW 3.38 COL 29 COLON-ALIGNED WIDGET-ID 10
      cStationUtilityPath AT ROW 6.24 COL 29 COLON-ALIGNED WIDGET-ID 18
      cUtilityParams AT ROW 9.1 COL 29 COLON-ALIGNED WIDGET-ID 16
+     BUTTON-1 AT ROW 9.1 COL 121 WIDGET-ID 30
      "Common Values:" VIEW-AS TEXT
           SIZE 18 BY .62 AT ROW 8.14 COL 6 WIDGET-ID 28
      "Default Values for the Station (blanks for global default values):" VIEW-AS TEXT
@@ -326,7 +349,8 @@ DEFINE FRAME FRAME-WKHTMLTOPDF
     WITH 1 DOWN KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 32 ROW 1.24
-         SIZE 133 BY 10.71
+         SIZE 133 BY 15.95
+         FONT 1
          TITLE "wkhtmltopdf utility" WIDGET-ID 200.
 
 DEFINE FRAME FRAME-SUMATRA
@@ -334,11 +358,13 @@ DEFINE FRAME FRAME-SUMATRA
      cGlobalSumatraPath64 AT ROW 3.38 COL 29 COLON-ALIGNED WIDGET-ID 10
      cStationSumatraPath AT ROW 6.24 COL 29 COLON-ALIGNED WIDGET-ID 18
      cSumatraOpeningParams AT ROW 9.1 COL 29 COLON-ALIGNED WIDGET-ID 30
+     BUTTON-4 AT ROW 9.1 COL 121 WIDGET-ID 38
      cSumatraPrintingParams AT ROW 10.29 COL 29 COLON-ALIGNED WIDGET-ID 36
-     "Common Values:" VIEW-AS TEXT
-          SIZE 18 BY .62 AT ROW 8.14 COL 6 WIDGET-ID 34
+     BUTTON-5 AT ROW 10.29 COL 121 WIDGET-ID 40
      "Global Default Values:" VIEW-AS TEXT
           SIZE 26 BY .62 AT ROW 1.24 COL 6 WIDGET-ID 14
+     "Common Values:" VIEW-AS TEXT
+          SIZE 18 BY .62 AT ROW 8.14 COL 6 WIDGET-ID 34
      "Default Values for the Station (blanks for global default values):" VIEW-AS TEXT
           SIZE 66 BY .62 AT ROW 5.29 COL 6 WIDGET-ID 24
      RECT-8 AT ROW 1.48 COL 3 WIDGET-ID 12
@@ -347,7 +373,8 @@ DEFINE FRAME FRAME-SUMATRA
     WITH 1 DOWN KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 32 ROW 1.24
-         SIZE 133 BY 11.91
+         SIZE 133 BY 15.95
+         FONT 1
          TITLE "Sumatra PDF" WIDGET-ID 500.
 
 DEFINE FRAME FRAME-ACRORD
@@ -355,7 +382,9 @@ DEFINE FRAME FRAME-ACRORD
      cGlobalAcrordPath64 AT ROW 3.38 COL 29 COLON-ALIGNED WIDGET-ID 10
      cStationAcrordPath AT ROW 6.24 COL 29 COLON-ALIGNED WIDGET-ID 18
      cAcrordOpeningParams AT ROW 9.1 COL 29 COLON-ALIGNED WIDGET-ID 30
+     BUTTON-6 AT ROW 9.1 COL 121 WIDGET-ID 40
      cAcrordPrintingParams AT ROW 10.29 COL 29 COLON-ALIGNED WIDGET-ID 36
+     BUTTON-7 AT ROW 10.29 COL 121 WIDGET-ID 42
      "Common Values:" VIEW-AS TEXT
           SIZE 18 BY .62 AT ROW 8.14 COL 6 WIDGET-ID 34
      "Global Default Values:" VIEW-AS TEXT
@@ -368,7 +397,8 @@ DEFINE FRAME FRAME-ACRORD
     WITH 1 DOWN KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 32 ROW 1.24
-         SIZE 133 BY 11.91
+         SIZE 133 BY 15.95
+         FONT 1
          TITLE "Adobe Acrobat Reader" WIDGET-ID 400.
 
 DEFINE FRAME FRAME-HOME
@@ -377,7 +407,8 @@ DEFINE FRAME FRAME-HOME
     WITH 1 DOWN KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 32 ROW 1.24
-         SIZE 133 BY 13.57
+         SIZE 133 BY 15.95
+         FONT 1
          TITLE "Home" WIDGET-ID 600.
 
 
@@ -398,13 +429,14 @@ IF SESSION:DISPLAY-TYPE = "GUI":U THEN
   CREATE WINDOW C-Win ASSIGN
          HIDDEN             = YES
          TITLE              = "PDFNator Config"
-         HEIGHT             = 16.1
+         HEIGHT             = 18.43
          WIDTH              = 165.4
          MAX-HEIGHT         = 41.57
          MAX-WIDTH          = 178.8
          VIRTUAL-HEIGHT     = 41.57
          VIRTUAL-WIDTH      = 178.8
-         RESIZE             = yes
+         MAX-BUTTON         = no
+         RESIZE             = no
          SCROLL-BARS        = no
          STATUS-AREA        = no
          BGCOLOR            = ?
@@ -540,6 +572,69 @@ DO:
 
     APPLY "close" TO THIS-PROCEDURE.
 
+END.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+&Scoped-define FRAME-NAME FRAME-WKHTMLTOPDF
+&Scoped-define SELF-NAME BUTTON-1
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BUTTON-1 C-Win
+ON CHOOSE OF BUTTON-1 IN FRAME FRAME-WKHTMLTOPDF /* Defaults */
+DO:
+    DISPLAY "--quiet --page-size A3 --copies 1 --page-offset [pageoffset] --header-left ~"[headertitle]~" --header-right ~"Page [page] of [toPage]~" ~"[fileorig]~" ~"[filedest]~"" @ cUtilityParams
+        WITH FRAME FRAME-WKHTMLTOPDF.
+END.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+&Scoped-define FRAME-NAME FRAME-SUMATRA
+&Scoped-define SELF-NAME BUTTON-4
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BUTTON-4 C-Win
+ON CHOOSE OF BUTTON-4 IN FRAME FRAME-SUMATRA /* Defaults */
+DO:
+    DISPLAY "~"[filename]~"" @ cSumatraOpeningParams
+        WITH FRAME FRAME-SUMATRA.
+END.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+&Scoped-define SELF-NAME BUTTON-5
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BUTTON-5 C-Win
+ON CHOOSE OF BUTTON-5 IN FRAME FRAME-SUMATRA /* Defaults */
+DO:
+    DISPLAY "-print-to ~"[printername]~" -silent ~"[filename]~"" @ cSumatraPrintingParams
+        WITH FRAME FRAME-SUMATRA.
+END.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+&Scoped-define FRAME-NAME FRAME-ACRORD
+&Scoped-define SELF-NAME BUTTON-6
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BUTTON-6 C-Win
+ON CHOOSE OF BUTTON-6 IN FRAME FRAME-ACRORD /* Defaults */
+DO:
+    DISPLAY "~"[filename]~"" @ cAcrordOpeningParams
+        WITH FRAME FRAME-ACRORD.
+END.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+&Scoped-define SELF-NAME BUTTON-7
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BUTTON-7 C-Win
+ON CHOOSE OF BUTTON-7 IN FRAME FRAME-ACRORD /* Defaults */
+DO:
+    DISPLAY "/t ~"[filename]~" ~"[printername]~"" @ cAcrordPrintingParams
+        WITH FRAME FRAME-ACRORD.
 END.
 
 /* _UIB-CODE-BLOCK-END */
@@ -710,7 +805,8 @@ PROCEDURE enable_UI :
           cAcrordOpeningParams cAcrordPrintingParams 
       WITH FRAME FRAME-ACRORD IN WINDOW C-Win.
   ENABLE RECT-6 RECT-7 RECT-12 cGlobalAcrordPath32 cGlobalAcrordPath64 
-         cStationAcrordPath cAcrordOpeningParams cAcrordPrintingParams 
+         cStationAcrordPath cAcrordOpeningParams BUTTON-6 cAcrordPrintingParams 
+         BUTTON-7 
       WITH FRAME FRAME-ACRORD IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-FRAME-ACRORD}
   DISPLAY EDITOR-1 cStationName 
@@ -722,7 +818,8 @@ PROCEDURE enable_UI :
           cSumatraOpeningParams cSumatraPrintingParams 
       WITH FRAME FRAME-SUMATRA IN WINDOW C-Win.
   ENABLE RECT-8 RECT-10 RECT-11 cGlobalSumatraPath32 cGlobalSumatraPath64 
-         cStationSumatraPath cSumatraOpeningParams cSumatraPrintingParams 
+         cStationSumatraPath cSumatraOpeningParams BUTTON-4 
+         cSumatraPrintingParams BUTTON-5 
       WITH FRAME FRAME-SUMATRA IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-FRAME-SUMATRA}
   DISPLAY cGlobalViewer cGlobalOpeningMode cGlobalPrintMode cGlobalPrinterPath 
@@ -738,7 +835,7 @@ PROCEDURE enable_UI :
           cUtilityParams 
       WITH FRAME FRAME-WKHTMLTOPDF IN WINDOW C-Win.
   ENABLE RECT-1 RECT-2 RECT-3 cGlobalUtilityPath32 cGlobalUtilityPath64 
-         cStationUtilityPath cUtilityParams 
+         cStationUtilityPath cUtilityParams BUTTON-1 
       WITH FRAME FRAME-WKHTMLTOPDF IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-FRAME-WKHTMLTOPDF}
   VIEW C-Win.
