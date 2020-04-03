@@ -19,6 +19,55 @@
         Check for improvements at
         https://github.com/robinsonrk/OpenEdgeAblUtilities
 
+
+
+
+https://knowledgebase.progress.com/articles/Article/000046047
+
+USING System.*.
+USING System.Collections.Generic.*.
+USING System.Diagnostics.*.
+USING System.IO.*.
+USING System.Linq.*.
+USING System.Text.*.
+USING System.Threading.Tasks.*.
+
+DEFINE VARIABLE proc AS System.Diagnostics.Process   NO-UNDO.
+DEFINE VARIABLE startInfo AS System.Diagnostics.ProcessStartInfo   NO-UNDO.
+
+DEFINE VARIABLE sFileName  AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE sPrinter  AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE sArgs AS CHARACTER   NO-UNDO.
+
+ASSIGN
+    startInfo = new System.Diagnostics.ProcessStartInfo()
+    sFileName = "C:\OpenEdge\WRK\FileName.pdf"
+    startInfo:FileName = sFileName
+    sPrinter  = "\\ServerName\PrinterName".
+
+/* Choose the verb based on whether the file is to be printed to network printer or to the default local printer */
+IF INDEX ( sPrinter, "\\") > 0 THEN
+    /* prints to a network printer */
+    startInfo:Verb = "printto".
+ELSE
+    /* prints to the local default printer */
+    startInfo:Verb = "print".
+
+ASSIGN
+    startInfo:UseShellExecute = TRUE
+    startInfo:WindowStyle = System.Diagnostics.ProcessWindowStyle:HIDDEN
+    startInfo:CreateNoWindow = TRUE
+    proc = System.Diagnostics.Process:Start(startInfo).
+
+/* Wait a maximum of 10 sec for the process to finish */
+proc:WaitForExit(10000).
+
+IF NOT proc:HasExited THEN DO:
+    proc:Kill().
+    proc:Dispose().
+END.
+
+
   ----------------------------------------------------------------------*/
 
 
@@ -171,14 +220,80 @@ END PROCEDURE.
 &IF DEFINED(ShellExecuteA) <> 0 &THEN
 
 PROCEDURE ShellExecuteA EXTERNAL "shell32.dll":
-    DEFINE INPUT PARAMETER hwnd         AS LONG         NO-UNDO. /* Handle to parent window */
-    DEFINE INPUT PARAMETER lpOperation  AS CHARACTER    NO-UNDO. /* Operation to perform: open, print */
-    DEFINE INPUT PARAMETER lpFile       AS CHARACTER    NO-UNDO. /* Document or executable name */
-    DEFINE INPUT PARAMETER lpParameters AS CHARACTER    NO-UNDO. /* Command line parameters to executable in lpFile */
-    DEFINE INPUT PARAMETER lpDirectory  AS CHARACTER    NO-UNDO. /* Default directory */
-    DEFINE INPUT PARAMETER nShowCmd     AS LONG         NO-UNDO. /* Whether shown when opened: 0 hidden, 1 normal, 2 minimized, 3 maximized, 0 if lpFile is a document */
-    DEFINE RETURN PARAMETER hInstance   AS LONG         NO-UNDO. /* Less than or equal to 32 */
+    DEFINE INPUT  PARAMETER hwnd            AS LONG         NO-UNDO. /* Handle to parent window */
+    DEFINE INPUT  PARAMETER lpOperation     AS CHARACTER    NO-UNDO. /* Operation to perform: open, print */
+    DEFINE INPUT  PARAMETER lpFile          AS CHARACTER    NO-UNDO. /* Document or executable name */
+    DEFINE INPUT  PARAMETER lpParameters    AS CHARACTER    NO-UNDO. /* Command line parameters to executable in lpFile */
+    DEFINE INPUT  PARAMETER lpDirectory     AS CHARACTER    NO-UNDO. /* Default directory */
+    DEFINE INPUT  PARAMETER nShowCmd        AS LONG         NO-UNDO. /* Whether shown when opened: 0 hidden, 1 normal, 2 minimized, 3 maximized, 0 if lpFile is a document */
+    DEFINE RETURN PARAMETER hInstance       AS LONG         NO-UNDO. /* Less than or equal to 32 */
 END PROCEDURE.
+
+&ENDIF
+
+&IF DEFINED(GetKey) <> 0 &THEN
+
+PROCEDURE GetKey:
+
+    DEFINE INPUT  PARAMETER pSection    AS CHARACTER    NO-UNDO.
+    DEFINE INPUT  PARAMETER pEntry      AS CHARACTER    NO-UNDO.
+    DEFINE INPUT  PARAMETER pDefault    AS CHARACTER    NO-UNDO.
+    DEFINE OUTPUT PARAMETER pString     AS CHARACTER    NO-UNDO.
+    
+    DEFINE VARIABLE iResult AS INTEGER  NO-UNDO.
+    DEFINE VARIABLE wbuf    AS MEMPTR   NO-UNDO.
+ 
+    SET-SIZE(wbuf) = 255.
+    
+    RUN GetProfileStringA(pSection, pEntry, pDefault, wbuf, 254, OUTPUT iResult).
+    
+    IF iResult = 0 THEN
+        ASSIGN pString = ?.
+    ELSE
+        ASSIGN pString = GET-STRING(wbuf,1).
+ 
+    SET-SIZE(wbuf) = 0.
+    
+END PROCEDURE.
+
+&ENDIF
+
+&IF DEFINED(SetKey) <> 0 &THEN
+
+PROCEDURE SetKey:
+    DEFINE INPUT PARAMETER pSection AS CHARACTER    NO-UNDO.
+    DEFINE INPUT PARAMETER pEntry   AS CHARACTER    NO-UNDO.
+    DEFINE INPUT PARAMETER pString  AS CHARACTER    NO-UNDO.
+    
+    DEFINE VARIABLE iResult  AS INTEGER      NO-UNDO.
+    
+    RUN WriteProfileStringA(pSection, pEntry, pString, OUTPUT iResult).
+    
+END PROCEDURE.
+ 
+&ENDIF
+
+&IF DEFINED(GetKey) <> 0 OR DEFINED(GetProfileStringA) <> 0 &THEN
+
+PROCEDURE GetProfileStringA EXTERNAL "KERNEL32.DLL":
+    DEFINE INPUT  PARAMETER lpszSection         AS CHARACTER    NO-UNDO. /* address of section */
+    DEFINE INPUT  PARAMETER lpszEntry           AS CHARACTER    NO-UNDO. /* address of entry   */
+    DEFINE INPUT  PARAMETER lpszDefault         AS CHARACTER    NO-UNDO.
+    DEFINE INPUT  PARAMETER lpszReturnBuffer    AS MEMPTR       NO-UNDO.
+    DEFINE INPUT  PARAMETER cbReturnBuffer      AS LONG         NO-UNDO.
+    DEFINE RETURN PARAMETER iResult             AS LONG         NO-UNDO.
+END.
+ 
+&ENDIF
+
+&IF DEFINED(SetKey) <> 0 OR DEFINED(WriteProfileStringA) <> 0 &THEN
+
+PROCEDURE WriteProfileStringA EXTERNAL "KERNEL32.DLL":
+    DEFINE INPUT  PARAMETER lpszSection  AS CHARACTER    NO-UNDO.
+    DEFINE INPUT  PARAMETER lpszEntry    AS CHARACTER    NO-UNDO.
+    DEFINE INPUT  PARAMETER lpszString   AS CHARACTER    NO-UNDO.
+    DEFINE RETURN PARAMETER iResult      AS LONG         NO-UNDO.
+END.
 
 &ENDIF
 

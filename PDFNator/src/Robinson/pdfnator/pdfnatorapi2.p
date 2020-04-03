@@ -63,6 +63,9 @@ BLOCK-LEVEL ON ERROR UNDO, THROW.
 
 /* ********************  Preprocessor Definitions  ******************** */
 
+/*easy test TTY environment changing WINDOW-SYSTEM-A from
+ {&WINDOW-SYSTEM} to TTY even on Windows */
+&GLOBAL-DEFINE WINDOW-SYSTEM-A {&WINDOW-SYSTEM}
 &GLOBAL-DEFINE PDFNATORPATH Robinson/pdfnator
 &GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
 &GLOBAL-DEFINE ABLENVIRONMENTPATH 
@@ -88,11 +91,13 @@ DEFINE VARIABLE cTempDir            AS CHARACTER    NO-UNDO.
 
 DEFINE VARIABLE cUtilityPath        AS CHARACTER    NO-UNDO.
 DEFINE VARIABLE cUtilityParams      AS CHARACTER    NO-UNDO.
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 DEFINE VARIABLE cPdfViewerPath      AS CHARACTER    NO-UNDO.
 DEFINE VARIABLE cViewMode           AS CHARACTER    NO-UNDO.
 DEFINE VARIABLE cViewerParameters   AS CHARACTER    NO-UNDO.
 DEFINE VARIABLE cPrintMode          AS CHARACTER    NO-UNDO.
 DEFINE VARIABLE cPdfPrinterParams   AS CHARACTER    NO-UNDO.
+&ENDIF
 
 DEFINE STREAM str-model.
 DEFINE STREAM str-temp.
@@ -109,7 +114,7 @@ RUN generatePdfFile IN THIS-PROCEDURE.
 IF pcPrinterName <> "" THEN
     RUN printPdfFile IN THIS-PROCEDURE.
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
 IF plOpenOnPdfViewer THEN
     RUN openPdfFile IN THIS-PROCEDURE.
@@ -125,7 +130,9 @@ PROCEDURE initializeEnvironment:
 
     DEFINE VARIABLE cInitialized    AS CHARACTER    NO-UNDO.
     DEFINE VARIABLE cStationName    AS CHARACTER    NO-UNDO.
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
     DEFINE VARIABLE cPdfViewerType  AS CHARACTER    NO-UNDO.
+&ENDIF
 
 
     RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.wkhtmltopdf32;global.wkhtmltopdf64", OUTPUT cInitialized).
@@ -138,7 +145,7 @@ PROCEDURE initializeEnvironment:
 &ENDIF
     END.
 
-&IF "{&WINDOW-SYSTEM}" = "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" = "TTY" &THEN
     ASSIGN cStationName = OS-GETENV("HOSTNAME").
 &ELSE
     ASSIGN cStationName = OS-GETENV("COMPUTERNAME").
@@ -163,7 +170,7 @@ PROCEDURE initializeEnvironment:
         RETURN ERROR.
     END.
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
     IF pcPrinterName <> "" THEN DO:
         RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".printmode;global.pdfprinter.mode", OUTPUT cPrintMode). /*acrord.comobj, command.copy, command.viewer*/
@@ -173,7 +180,7 @@ PROCEDURE initializeEnvironment:
         END.
     END.
 
-    IF (pcPrinterName <> "" AND cPrintMode = "command.viewer") OR plOpenOnPdfViewer THEN DO:
+    IF plOpenOnPdfViewer OR (pcPrinterName <> "" AND cPrintMode = "command.viewer")THEN DO:
 
         RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfviewer.type;global.pdfviewer.type", OUTPUT cPdfViewerType).
         IF NOT CAN-DO ("acrord,sumatra", cPdfViewerType) THEN DO:
@@ -195,34 +202,67 @@ PROCEDURE initializeEnvironment:
         END.
 
         IF cViewMode <> "auto" THEN DO:
-
             RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfviewer.parameters." + cPdfViewerType + ";global.pdfviewer.parameters." + cPdfViewerType, OUTPUT cViewerParameters).
             IF cViewerParameters = ? THEN DO:
                 RUN {&LOGABLERRORSPATH}/log.p (SUBSTITUTE("PDF Viewer opening parameters not set in config-sistema table to station &1", cStationName)).
                 RETURN ERROR.
             END.
-
         END.
 
     END.
+    
+    IF cPrintMode = "command.viewer" AND CAN-DO("default,PRINTER,PRN,LPT1,LPT2,LPT3,COM1,COM2,COM3", pcPrinterName) THEN DO:
 
-    IF pcPrinterName = "default" AND cPrintMode <> "acrord.comobj" THEN DO:
+        IF pcPrinterName = "default" THEN DO:
+            RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfprinter.name;global.pdfprinter.name", OUTPUT pcPrinterName).
+            IF pcPrinterName = ? THEN DO:
+                RUN {&LOGABLERRORSPATH}/log.p ("PDF default printer not found in config-sistema table").
+                RETURN ERROR.
+            END.
+        END.
+
+        IF CAN-DO("default,PRINTER,PRN,LPT1,LPT2,LPT3,COM1,COM2,COM3", pcPrinterName) THEN DO:
+            RUN getKey ("Windows", "Device", "", OUTPUT pcPrinterName).
+            ASSIGN pcPrinterName = ENTRY(1, pcPrinterName).
+        END.
+    
+    END.
+
+    IF cPrintMode = "command.copy" AND pcPrinterName = "default" THEN DO:
+
         RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfprinter.name;global.pdfprinter.name", OUTPUT pcPrinterName).
         IF pcPrinterName = ? THEN DO:
             RUN {&LOGABLERRORSPATH}/log.p ("PDF default printer not found in config-sistema table").
             RETURN ERROR.
         END.
+
+        IF pcPrinterName = "default" THEN
+            ASSIGN pcPrinterName = "PRINTER".
+        
     END.
 
-&ENDIF
-
-    IF pcPrinterName <> "" AND cPrintMode = "command.viewer" THEN DO:
+    IF cPrintMode = "command.viewer" AND pcPrinterName <> "" THEN DO:
         RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.pdfviewer.printparameters." + cPdfViewerType, OUTPUT cPdfPrinterParams).
         IF cPdfPrinterParams = ? THEN DO:
             RUN {&LOGABLERRORSPATH}/log.p ("PDF printer parameters not found in config-sistema table").
             RETURN ERROR.
         END.
     END.
+
+&ELSE
+
+    IF pcPrinterName = "default" THEN DO:
+        RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfprinter.name;global.pdfprinter.name", OUTPUT pcPrinterName).
+        IF pcPrinterName = ? THEN DO:
+            RUN {&LOGABLERRORSPATH}/log.p ("PDF default printer not found in config-sistema table").
+            RETURN ERROR.
+        END.
+    END.
+    
+    IF pcPrinterName = "default" THEN
+        ASSIGN pcPrinterName = "PRINTER".
+
+&ENDIF
 
     IF piNumCopies < 1 THEN
         ASSIGN piNumCopies = 1.
@@ -256,15 +296,15 @@ PROCEDURE initializePdfFileName:
 
     IF pcFileDestiny = "" THEN DO:
 
-        DEFINE VARIABLE iSeqTempFile AS INTEGER NO-UNDO.
+        DEFINE VARIABLE iSeqTempFile AS INTEGER NO-UNDO INITIAL 1.
 
         RUN initializeTempDir IN THIS-PROCEDURE.
 
-        DO WHILE SEARCH(cTempDir + "/temp-" + STRING(iSeqTempFile, "999999") + ".pdf") <> ?:
+        DO WHILE SEARCH(cTempDir + "/temp-" + STRING(iSeqTempFile, "99999999") + ".pdf") <> ?:
             ASSIGN iSeqTempFile = iSeqTempFile + 1.
         END.
 
-        ASSIGN pcFileDestiny = cTempDir + "/temp-" + STRING(iSeqTempFile) + ".pdf".
+        ASSIGN pcFileDestiny = cTempDir + "/temp-" + STRING(iSeqTempFile, "99999999") + ".pdf".
 
     END.
 
@@ -283,7 +323,7 @@ PROCEDURE generatePdfFile:
 
     ASSIGN cCommandLine = cUtilityPath + " " + cUtilityParams.
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
     RUN runProcess (INPUT cCommandLine, 30000). /*wait 30 seconds*/
 &ELSE
     OS-COMMAND SILENT VALUE(cCommandLine).
@@ -297,7 +337,7 @@ END PROCEDURE.
 
 PROCEDURE printPdfFile:
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
     CASE cPrintMode: /*, command.copy, */
         WHEN "acrord.comobj" THEN RUN printPdfFileCom IN THIS-PROCEDURE.
@@ -314,7 +354,7 @@ PROCEDURE printPdfFile:
 END PROCEDURE.
 
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
 PROCEDURE printPdfFileCom:
 
@@ -358,7 +398,7 @@ PROCEDURE printPdfFileViewer:
     ASSIGN cCommandLine = cPdfViewerPath + " " + cPdfPrinterParams.
 
     DO iCont = 1 TO piNumCopies:
-        RUN runProcess (INPUT cCommandLine, 30000).
+        RUN runProcess (INPUT cCommandLine, 0).
     END.
 
 END PROCEDURE.
@@ -370,7 +410,7 @@ PROCEDURE printPdfFileCopy:
 
     DEFINE VARIABLE iCont           AS INTEGER      NO-UNDO.
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
     DO iCont = 1 TO piNumCopies:
         OS-COPY VALUE ("~"" + pcFileDestiny + "~"") VALUE ("~"" + pcPrinterName + "~"").
@@ -392,18 +432,11 @@ PROCEDURE printPdfFileCopy:
 
 END PROCEDURE.
 
-&IF "{&WINDOW-SYSTEM}" <> "TTY" &THEN
+&IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
 PROCEDURE openPdfFile:
 
     DEFINE VARIABLE hInstance       AS INTEGER      NO-UNDO.
-    DEFINE VARIABLE cCommandLine    AS CHARACTER    NO-UNDO.
-
-    IF cViewMode = "auto" THEN
-        ASSIGN cCommandLine = "~"" + pcFileDestiny + "~"".
-    ELSE
-        ASSIGN cCommandLine = cPdfViewerPath + " " + cViewerParameters
-               cCommandLine = REPLACE(cCommandLine, "[filename]", pcFileDestiny).
 
     RUN ShellExecuteA (INPUT 0,
                        INPUT "open",
@@ -418,5 +451,6 @@ END PROCEDURE.
 &ENDIF
 
 {{&GLOBALCONFIGPATH}/externalproc.i &runProcess=ENABLE
-                                    &ShellExecuteA=ENABLE}
+                                    &ShellExecuteA=ENABLE
+                                    &getKey=ENABLE}
 
