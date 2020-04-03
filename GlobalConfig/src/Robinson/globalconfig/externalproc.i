@@ -9,6 +9,7 @@
 
         https://knowledgebase.progress.com/articles/Article/P14886
         https://knowledgebase.progress.com/articles/Article/000045158
+        https://knowledgebase.progress.com/articles/Article/000046047
 
         Example:
         {Robinson/globalconfig/externalproc.i &associatedProgram=ANYTHINGTOENABLE
@@ -18,55 +19,6 @@
 
         Check for improvements at
         https://github.com/robinsonrk/OpenEdgeAblUtilities
-
-
-
-
-https://knowledgebase.progress.com/articles/Article/000046047
-
-USING System.*.
-USING System.Collections.Generic.*.
-USING System.Diagnostics.*.
-USING System.IO.*.
-USING System.Linq.*.
-USING System.Text.*.
-USING System.Threading.Tasks.*.
-
-DEFINE VARIABLE proc AS System.Diagnostics.Process   NO-UNDO.
-DEFINE VARIABLE startInfo AS System.Diagnostics.ProcessStartInfo   NO-UNDO.
-
-DEFINE VARIABLE sFileName  AS CHARACTER   NO-UNDO.
-DEFINE VARIABLE sPrinter  AS CHARACTER   NO-UNDO.
-DEFINE VARIABLE sArgs AS CHARACTER   NO-UNDO.
-
-ASSIGN
-    startInfo = new System.Diagnostics.ProcessStartInfo()
-    sFileName = "C:\OpenEdge\WRK\FileName.pdf"
-    startInfo:FileName = sFileName
-    sPrinter  = "\\ServerName\PrinterName".
-
-/* Choose the verb based on whether the file is to be printed to network printer or to the default local printer */
-IF INDEX ( sPrinter, "\\") > 0 THEN
-    /* prints to a network printer */
-    startInfo:Verb = "printto".
-ELSE
-    /* prints to the local default printer */
-    startInfo:Verb = "print".
-
-ASSIGN
-    startInfo:UseShellExecute = TRUE
-    startInfo:WindowStyle = System.Diagnostics.ProcessWindowStyle:HIDDEN
-    startInfo:CreateNoWindow = TRUE
-    proc = System.Diagnostics.Process:Start(startInfo).
-
-/* Wait a maximum of 10 sec for the process to finish */
-proc:WaitForExit(10000).
-
-IF NOT proc:HasExited THEN DO:
-    proc:Kill().
-    proc:Dispose().
-END.
-
 
   ----------------------------------------------------------------------*/
 
@@ -294,6 +246,24 @@ PROCEDURE WriteProfileStringA EXTERNAL "KERNEL32.DLL":
     DEFINE INPUT  PARAMETER lpszString   AS CHARACTER    NO-UNDO.
     DEFINE RETURN PARAMETER iResult      AS LONG         NO-UNDO.
 END.
+
+&ENDIF
+
+&IF DEFINED(printWithDotNet) <> 0 &THEN
+
+&IF DEFINED(GLOBALCONFIGPATH) = 0 &THEN
+    &MESSAGE GLOBALCONFIGPATH preprocesso must be defined
+&ENDIF
+
+PROCEDURE printWithDotNet:
+    DEFINE INPUT PARAMETER pPrintMode   AS CHARACTER    NO-UNDO.
+    DEFINE INPUT PARAMETER sFileName    AS CHARACTER    NO-UNDO.
+    DEFINE INPUT PARAMETER sPrinter     AS CHARACTER    NO-UNDO.
+    DEFINE INPUT PARAMETER iNumCopies   AS INTEGER      NO-UNDO.
+
+    RUN {&GLOBALCONFIGPATH}/printwithdotnet.p (pPrintMode, sFileName, sPrinter, iNumCopies).
+
+END PROCEDURE.
 
 &ENDIF
 

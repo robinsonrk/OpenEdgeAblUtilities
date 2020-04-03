@@ -173,8 +173,8 @@ PROCEDURE initializeEnvironment:
 &IF "{&WINDOW-SYSTEM-A}" <> "TTY" &THEN
 
     IF pcPrinterName <> "" THEN DO:
-        RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".printmode;global.pdfprinter.mode", OUTPUT cPrintMode). /*acrord.comobj, command.copy, command.viewer*/
-        IF NOT CAN-DO ("acrord.comobj,command.copy,command.viewer", cPrintMode) THEN DO:
+        RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".printmode;global.pdfprinter.mode", OUTPUT cPrintMode). /*acrord.comobj, acrord.dotnet, command.copy, command.viewer*/
+        IF NOT CAN-DO ("acrord.comobj,acrord.dotnet,command.copy,command.viewer", cPrintMode) THEN DO:
             RUN {&LOGABLERRORSPATH}/log.p ("print mode for pdf files was not set, using command.copy instead").
             ASSIGN cPrintMode = "command.copy".
         END.
@@ -341,6 +341,7 @@ PROCEDURE printPdfFile:
 
     CASE cPrintMode: /*, command.copy, */
         WHEN "acrord.comobj" THEN RUN printPdfFileCom IN THIS-PROCEDURE.
+        WHEN "acrord.dotnet" THEN RUN printPdfWithDotNet IN THIS-PROCEDURE.
         WHEN "command.viewer" THEN RUN printPdfFileViewer IN THIS-PROCEDURE.
         WHEN "command.copy" THEN RUN printPdfFileCopy IN THIS-PROCEDURE.
     END CASE.
@@ -403,6 +404,13 @@ PROCEDURE printPdfFileViewer:
 
 END PROCEDURE.
 
+
+PROCEDURE printPdfWithDotNet:
+
+    RUN printWithDotNet IN THIS-PROCEDURE (cPrintMode, pcFileDestiny, pcPrinterName, piNumCopies).
+
+END PROCEDURE.
+
 &ENDIF
 
 
@@ -452,5 +460,5 @@ END PROCEDURE.
 
 {{&GLOBALCONFIGPATH}/externalproc.i &runProcess=ENABLE
                                     &ShellExecuteA=ENABLE
-                                    &getKey=ENABLE}
-
+                                    &getKey=ENABLE
+                                    &printWithDotNet=ENABLE}

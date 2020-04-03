@@ -201,6 +201,7 @@ DEFINE VARIABLE cGlobalPrintMode AS CHARACTER FORMAT "X(256)":U INITIAL "command
      VIEW-AS COMBO-BOX INNER-LINES 5
      LIST-ITEM-PAIRS "Using PDF Viewer","command.viewer",
                      "Copy to Printer","command.copy",
+                     "Adobe Acrobat Reader dotNet integration","acrord.dotnet",
                      "Adobe Acrobat Reader COM Automation (needs Pro Licence)","acrord.comobj"
      DROP-DOWN-LIST
      SIZE 89 BY 1 NO-UNDO.
@@ -228,6 +229,7 @@ DEFINE VARIABLE cStationPrintMode AS CHARACTER FORMAT "X(256)":U INITIAL "defaul
      LIST-ITEM-PAIRS "Global Default","default",
                      "Using PDF Viewer","command.viewer",
                      "Copy to Printer","command.copy",
+                     "Adobe Acrobat Reader dotNet integration","acrord.dotnet",
                      "Adobe Acrobat Reader COM Automation (needs Pro Licence)","acrord.comobj"
      DROP-DOWN-LIST
      SIZE 89 BY 1 NO-UNDO.
@@ -862,11 +864,11 @@ PROCEDURE loadConfigs :
     IF cStationUtilityPath = ? THEN
         ASSIGN cStationUtilityPath = "".
     RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.wkhtmltopdfparameters", OUTPUT cUtilityParams).
-    RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.pdfprinter.mode", OUTPUT cGlobalPrintMode). /*acrord.comobj, command.copy, command.viewer*/
-    IF NOT CAN-DO ("acrord.comobj,command.copy,command.viewer", cGlobalPrintMode) THEN
+    RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.pdfprinter.mode", OUTPUT cGlobalPrintMode). /*acrord.comobj, acrord.dotnet, command.copy, command.viewer*/
+    IF NOT CAN-DO ("acrord.comobj,acrord.dotnet,command.copy,command.viewer", cGlobalPrintMode) THEN
         ASSIGN cGlobalPrintMode = "command.viewer".
-    RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfprinter.mode", OUTPUT cStationPrintMode). /*acrord.comobj, command.copy, command.viewer*/
-    IF cStationPrintMode = ? OR NOT CAN-DO ("acrord.comobj,command.copy,command.viewer", cStationPrintMode) THEN
+    RUN {&GLOBALCONFIGPATH}/getconfig.p ("station." + cStationName + ".pdfprinter.mode", OUTPUT cStationPrintMode). /*acrord.comobj, acrord.dotnet, command.copy, command.viewer*/
+    IF cStationPrintMode = ? OR NOT CAN-DO ("acrord.comobj,acrord.dotnet,command.copy,command.viewer", cStationPrintMode) THEN
         ASSIGN cStationPrintMode = "default".
     RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.pdfviewer.type", OUTPUT cGlobalViewer).
     IF NOT CAN-DO ("acrord,sumatra", cGlobalViewer) THEN
