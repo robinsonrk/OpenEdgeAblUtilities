@@ -750,7 +750,9 @@ DO ON ERROR   UNDO MAIN-BLOCK, LEAVE MAIN-BLOCK
                     + "WKHTMLTOPDF path can be set relative to the PROPATH." + CHR(10)
                     + "Change the global configurations or specify the station you want to set configurations in the box bellow.".
 
-    ASSIGN cStationName = OS-GETENV("COMPUTERNAME").
+    ASSIGN cStationName = OS-GETENV("CLIENTNAME"). /*Remote Desktop client*/
+    IF cStationName = ? THEN
+        ASSIGN cStationName = OS-GETENV("COMPUTERNAME").
 
     RUN loadConfigs IN THIS-PROCEDURE.
 
@@ -774,7 +776,7 @@ PROCEDURE disable_UI :
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
   Notes:       Here we clean-up the user-interface by deleting
-               dynamic widgets we have created and/or hide 
+               dynamic widgets we have created and/or hide
                frames.  This procedure is usually called when
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
@@ -795,7 +797,7 @@ PROCEDURE enable_UI :
   Notes:       Here we display/view/enable the widgets in the
                user-interface.  In addition, OPEN all queries
                associated with each FRAME and BROWSE.
-               These statements here are based on the "Other 
+               These statements here are based on the "Other
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
   DISPLAY SELECT-1 
@@ -849,9 +851,9 @@ END PROCEDURE.
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE loadConfigs C-Win 
 PROCEDURE loadConfigs :
 /*------------------------------------------------------------------------------
-  Purpose:     
+  Purpose:
   Parameters:  <none>
-  Notes:       
+  Notes:
 ------------------------------------------------------------------------------*/
 
     RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.wkhtmltopdf32;global.wkhtmltopdf64", OUTPUT cInitialized).
@@ -901,47 +903,41 @@ PROCEDURE loadConfigs :
     RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.pdfviewer.printparameters.acrord", OUTPUT cAcrordPrintingParams).
     RUN {&GLOBALCONFIGPATH}/getconfig.p ("global.pdfviewer.printparameters.sumatra", OUTPUT cSumatraPrintingParams).
 
-    
-    DISPLAY 
-    
 
-    cGlobalUtilityPath32
-    cGlobalUtilityPath64
-    cStationUtilityPath
-    cUtilityParams
-    
-    WITH FRAME FRAME-WKHTMLTOPDF.
+    DISPLAY
+        cGlobalUtilityPath32
+        cGlobalUtilityPath64
+        cStationUtilityPath
+        cUtilityParams
+        WITH FRAME FRAME-WKHTMLTOPDF.
 
-    DISPLAY 
-    
-    cGlobalOpeningMode
-    cStationOpeningMode
-    cGlobalPrintMode
-    cStationPrintMode
-    cGlobalViewer
-    cStationViewer
-    cGlobalPrinterPath
-    cStationPrinterPath
-    
-    WITH FRAME FRAME-VIEWER.
-    
     DISPLAY
-    cGlobalAcrordPath32
-    cGlobalAcrordPath64
-    cStationAcrordPath
-    cAcrordOpeningParams
-    cAcrordPrintingParams
-    WITH FRAME FRAME-ACRORD.
-    
+        cGlobalOpeningMode
+        cStationOpeningMode
+        cGlobalPrintMode
+        cStationPrintMode
+        cGlobalViewer
+        cStationViewer
+        cGlobalPrinterPath
+        cStationPrinterPath
+        WITH FRAME FRAME-VIEWER.
+
     DISPLAY
-    cGlobalSumatraPath32
-    cGlobalSumatraPath64
-    cStationSumatraPath
-    cSumatraOpeningParams
-    cSumatraPrintingParams
-    WITH FRAME FRAME-SUMATRA.
-    
-    
+        cGlobalAcrordPath32
+        cGlobalAcrordPath64
+        cStationAcrordPath
+        cAcrordOpeningParams
+        cAcrordPrintingParams
+        WITH FRAME FRAME-ACRORD.
+
+    DISPLAY
+        cGlobalSumatraPath32
+        cGlobalSumatraPath64
+        cStationSumatraPath
+        cSumatraOpeningParams
+        cSumatraPrintingParams
+        WITH FRAME FRAME-SUMATRA.
+
 END PROCEDURE.
 
 /* _UIB-CODE-BLOCK-END */

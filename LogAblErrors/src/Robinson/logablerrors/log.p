@@ -35,6 +35,6 @@ DEFINE STREAM str-log.
 
 /* ***************************  Main Block  *************************** */
 
-OUTPUT STREAM str-log TO {&LOGMESSAGES} CONVERT TARGET "UTF-8" APPEND.
+OUTPUT STREAM str-log TO VALUE({&LOGMESSAGES}) CONVERT TARGET "UTF-8" APPEND.
 PUT STREAM str-log UNFORMATTED STRING(TODAY, "99/99/9999") " " STRING(TIME, "HH:MM:SS") " " pcMessage SKIP.
 OUTPUT STREAM str-log CLOSE.

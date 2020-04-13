@@ -191,21 +191,21 @@ PROCEDURE GetKey:
     DEFINE INPUT  PARAMETER pEntry      AS CHARACTER    NO-UNDO.
     DEFINE INPUT  PARAMETER pDefault    AS CHARACTER    NO-UNDO.
     DEFINE OUTPUT PARAMETER pString     AS CHARACTER    NO-UNDO.
-    
+
     DEFINE VARIABLE iResult AS INTEGER  NO-UNDO.
     DEFINE VARIABLE wbuf    AS MEMPTR   NO-UNDO.
- 
+
     SET-SIZE(wbuf) = 255.
-    
+
     RUN GetProfileStringA(pSection, pEntry, pDefault, wbuf, 254, OUTPUT iResult).
-    
+
     IF iResult = 0 THEN
         ASSIGN pString = ?.
     ELSE
         ASSIGN pString = GET-STRING(wbuf,1).
- 
+
     SET-SIZE(wbuf) = 0.
-    
+
 END PROCEDURE.
 
 &ENDIF
@@ -216,13 +216,13 @@ PROCEDURE SetKey:
     DEFINE INPUT PARAMETER pSection AS CHARACTER    NO-UNDO.
     DEFINE INPUT PARAMETER pEntry   AS CHARACTER    NO-UNDO.
     DEFINE INPUT PARAMETER pString  AS CHARACTER    NO-UNDO.
-    
+
     DEFINE VARIABLE iResult  AS INTEGER      NO-UNDO.
-    
+
     RUN WriteProfileStringA(pSection, pEntry, pString, OUTPUT iResult).
-    
+
 END PROCEDURE.
- 
+
 &ENDIF
 
 &IF DEFINED(GetKey) <> 0 OR DEFINED(GetProfileStringA) <> 0 &THEN
@@ -235,7 +235,7 @@ PROCEDURE GetProfileStringA EXTERNAL "KERNEL32.DLL":
     DEFINE INPUT  PARAMETER cbReturnBuffer      AS LONG         NO-UNDO.
     DEFINE RETURN PARAMETER iResult             AS LONG         NO-UNDO.
 END.
- 
+
 &ENDIF
 
 &IF DEFINED(SetKey) <> 0 OR DEFINED(WriteProfileStringA) <> 0 &THEN
@@ -252,7 +252,7 @@ END.
 &IF DEFINED(printWithDotNet) <> 0 &THEN
 
 &IF DEFINED(GLOBALCONFIGPATH) = 0 &THEN
-    &MESSAGE GLOBALCONFIGPATH preprocesso must be defined
+    &MESSAGE GLOBALCONFIGPATH preprocessor must be defined
 &ENDIF
 
 PROCEDURE printWithDotNet:

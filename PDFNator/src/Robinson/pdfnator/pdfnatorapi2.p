@@ -148,7 +148,9 @@ PROCEDURE initializeEnvironment:
 &IF "{&WINDOW-SYSTEM-A}" = "TTY" &THEN
     ASSIGN cStationName = OS-GETENV("HOSTNAME").
 &ELSE
-    ASSIGN cStationName = OS-GETENV("COMPUTERNAME").
+    ASSIGN cStationName = OS-GETENV("CLIENTNAME"). /*Remote Desktop client*/
+    IF cStationName = ? THEN
+        ASSIGN cStationName = OS-GETENV("COMPUTERNAME").
 &ENDIF
 
 
@@ -210,7 +212,7 @@ PROCEDURE initializeEnvironment:
         END.
 
     END.
-    
+
     IF cPrintMode = "command.viewer" AND CAN-DO("default,PRINTER,PRN,LPT1,LPT2,LPT3,COM1,COM2,COM3", pcPrinterName) THEN DO:
 
         IF pcPrinterName = "default" THEN DO:
@@ -225,7 +227,7 @@ PROCEDURE initializeEnvironment:
             RUN getKey ("Windows", "Device", "", OUTPUT pcPrinterName).
             ASSIGN pcPrinterName = ENTRY(1, pcPrinterName).
         END.
-    
+
     END.
 
     IF cPrintMode = "command.copy" AND pcPrinterName = "default" THEN DO:
@@ -238,7 +240,7 @@ PROCEDURE initializeEnvironment:
 
         IF pcPrinterName = "default" THEN
             ASSIGN pcPrinterName = "PRINTER".
-        
+
     END.
 
     IF cPrintMode = "command.viewer" AND pcPrinterName <> "" THEN DO:
@@ -258,7 +260,7 @@ PROCEDURE initializeEnvironment:
             RETURN ERROR.
         END.
     END.
-    
+
     IF pcPrinterName = "default" THEN
         ASSIGN pcPrinterName = "PRINTER".
 
