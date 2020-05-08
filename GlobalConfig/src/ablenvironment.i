@@ -26,7 +26,7 @@
 &GLOBAL-DEFINE RTENVIRONMENT development
 &GLOBAL-DEFINE STORAGE memory
 
-&GLOBAL-DEFINE LOGMESSAGES VALUE(SESSION:TEMP-DIRECTORY + "ablmessages.log")
+&GLOBAL-DEFINE LOGMESSAGES SESSION:TEMP-DIRECTORY + "ablmessages.log"
 
 /* ***************************  Definitions  ************************** */
 

@@ -56,12 +56,17 @@ BLOCK-LEVEL ON ERROR UNDO, THROW.
 
 /* ********************  Preprocessor Definitions  ******************** */
 
-{Robinson/globalconfig/globalconfig.i}
+&GLOBAL-DEFINE PDFNATORPATH Robinson/pdfnator
+&GLOBAL-DEFINE GLOBALCONFIGPATH Robinson/globalconfig
+&GLOBAL-DEFINE ABLENVIRONMENTPATH 
+&GLOBAL-DEFINE LOGABLERRORSPATH Robinson/lobablerrors
+
+{{&GLOBALCONFIGPATH}/globalconfig.i}
 
 
 /* ***************************  Definitions  ************************** */
 
-{Robinson/pdfnator/pdfnatorapi.i}
+{{&PDFNATORPATH}/pdfnatorapi.i}
 {src/web/method/cgidefs.i}
 
 
@@ -98,14 +103,14 @@ RUN initializePdfFileName IN THIS-PROCEDURE.
 
 RUN generateTempHtmlFile IN THIS-PROCEDURE.
 
-RUN Robinson/pdfnator/pdfnatorapi2.p (cTempHtml,
-                                      pcFileDestiny,
-                                      pcPrinterName,
-                                      plOpenOnPdfViewer,
-                                      piPageOffset,
-                                      piNumCopies,
-                                      pcHeaderTitle,
-                                      plDeleteSource).
+RUN {&PDFNATORPATH}/pdfnatorapi2.p (cTempHtml,
+                                    pcFileDestiny,
+                                    pcPrinterName,
+                                    plOpenOnPdfViewer,
+                                    piPageOffset,
+                                    piNumCopies,
+                                    pcHeaderTitle,
+                                    plDeleteSource).
 
 RETURN "".
 
@@ -115,7 +120,7 @@ RETURN "".
 PROCEDURE initializeEnvironment:
 
     IF SEARCH(pcHtmlModelFile) = ? THEN DO:
-        RUN Robinson/logablerrors/log.p (SUBSTITUTE("HTML model file not found. &1", pcHtmlModelFile)).
+        RUN {&ABLENVIRONMENTPATH}/log.p (SUBSTITUTE("HTML model file not found. &1", pcHtmlModelFile)).
         RETURN ERROR.
     END.
 
@@ -185,7 +190,7 @@ PROCEDURE generateTempHtmlFile:
         IMPORT STREAM str-model UNFORMATTED cLinha.
 
         FOR EACH ttHtmlFields NO-LOCK:
-            ASSIGN cLinha = REPLACE(cLinha, "[" + ttHtmlFields.htmlfield + "]", html-encode(ttHtmlFields.htmlvalue)).
+            ASSIGN cLinha = REPLACE(cLinha, "[" + ttHtmlFields.htmlfield + "]", /*html-encode(*/ ttHtmlFields.htmlvalue /*)*/ ).
         END.
 
         PUT STREAM str-temp UNFORMATTED cLinha SKIP.

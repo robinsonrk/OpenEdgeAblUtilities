@@ -45,3 +45,7 @@ PROCEDURE insertHtmlField:
         DELETE ttHtmlFields.
 
 END PROCEDURE.
+
+PROCEDURE clearHtmlFields:
+    empty temp-table ttHtmlFields.
+END PROCEDURE.
