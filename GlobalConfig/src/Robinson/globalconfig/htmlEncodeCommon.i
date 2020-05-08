@@ -136,16 +136,16 @@ if encodingType = "url" or encodingType = "qsp" then
     .
 
 if encodingType = "qsp" then
-    assign encodedString = replace(encodedString, chr(43), "&#43;")     /* plus */
-           encodedString = replace(encodedString, chr(44), "&#44;")     /* comma */
-           encodedString = replace(encodedString, chr(45), "&#45;")     /* minus */
-           encodedString = replace(encodedString, chr(46), "&#46;")     /* period */
-           encodedString = replace(encodedString, chr(47), "&#47;")     /* slash */
-           encodedString = replace(encodedString, chr(58), "&#58;")     /* colon */
-           encodedString = replace(encodedString, chr(59), "&#59;")     /* semicolon */
-           encodedString = replace(encodedString, chr(61), "&#61;")     /* equality sign */
-           encodedString = replace(encodedString, chr(63), "&#63;")     /* question mark */
-           encodedString = replace(encodedString, chr(64), "&#64;")     /* at sign */
+    assign encodedString = replace(encodedString, chr(43),  "&#43;")    /* plus */
+           encodedString = replace(encodedString, chr(44),  "&#44;")    /* comma */
+           encodedString = replace(encodedString, chr(45),  "&#45;")    /* minus */
+           encodedString = replace(encodedString, chr(46),  "&#46;")    /* period */
+           encodedString = replace(encodedString, chr(47),  "&#47;")    /* slash */
+           encodedString = replace(encodedString, chr(58),  "&#58;")    /* colon */
+           encodedString = replace(encodedString, chr(59),  "&#59;")    /* semicolon */
+           encodedString = replace(encodedString, chr(61),  "&#61;")    /* equality sign */
+           encodedString = replace(encodedString, chr(63),  "&#63;")    /* question mark */
+           encodedString = replace(encodedString, chr(64),  "&#64;")    /* at sign */
     .
 
 /*Extra codes*/
